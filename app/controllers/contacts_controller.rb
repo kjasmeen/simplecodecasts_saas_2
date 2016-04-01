@@ -10,6 +10,11 @@ class ContactsController < ApplicationController
     #must whitelist for security purposes in  
    
     if @contact.save
+      name = params[:contact][:name] #translates into whatever is in name sect of form
+      email = params[:contact][:email]
+      body = params[:contact][:comments]
+     
+      ContactMailer.contact_email(name, email, body).deliver
       flash[:sucess] = "Message sent."
       redirect_to new_contact_path
     else
